@@ -1,11 +1,6 @@
 package org.academiadecodigo.server;
 
-import org.academiadecodigo.client.Client;
-
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,10 +11,19 @@ import java.util.List;
  */
 public class Server {
 
+    private List<ClientHandler> clientHandlerList;
+
+    public Server() {
+        this.clientHandlerList = new ArrayList<>();
+    }
 
     public static void main(String[] args) {
+        Server server = new Server();
+        server.startServer();
+    }
 
-        List<ClientHandler> clientHandlerList = new ArrayList<>();
+    private void startServer() {
+
         ClientHandler clientHandler;
 
         try {
@@ -27,20 +31,31 @@ public class Server {
             System.out.println(serverSocket);
             Socket clientSocket;
 
-            System.out.println("Waiting for Connection");
-            clientSocket = serverSocket.accept();
-            System.out.println("Connected! @" + clientSocket);
             while (true) {
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String c = bufferedReader.readLine();
-                System.out.println("Li esta frase: " + c);
+                System.out.println("Waiting for Connection...");
+
+                //Stops the program and waits for a connection
+                clientSocket = serverSocket.accept();
+                System.out.println("Connected! @" + clientSocket);
+
+                //Create a clientHandler for each new connection and had it to the clientHandlerList
+                clientHandler = new ClientHandler(clientSocket, this);
+                clientHandlerList.add(clientHandler);
+
+                //Each clientHandler runs on a new thread
+                Thread client = new Thread(clientHandler);
+                client.setName("Client " + client.getName().substring(client.getName().length() - 1));
+                client.start();
 
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendAll() {
 
     }
 
