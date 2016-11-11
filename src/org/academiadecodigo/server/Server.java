@@ -55,7 +55,7 @@ public class Server {
         }
     }
 
-    public void sendAll(String message) {
+    public synchronized void sendAll(String message) {
         for (ClientHandler clientHandler : clientHandlerList) {
             clientHandler.sendMessage(message);
         }
