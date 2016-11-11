@@ -55,8 +55,13 @@ public class Server {
         }
     }
 
-    public void sendAll() {
-
+    public void sendAll(String message) {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.sendMessage(message);
+        }
     }
 
+    public List<ClientHandler> getClientHandlerList() {
+        return clientHandlerList;
+    }
 }
