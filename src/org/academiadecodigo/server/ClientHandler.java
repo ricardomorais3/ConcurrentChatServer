@@ -15,6 +15,7 @@ public class ClientHandler implements Runnable {
     private Server server;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
+    private String clientName;
 
     public ClientHandler(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;

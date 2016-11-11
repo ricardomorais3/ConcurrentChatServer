@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: implement (1) prompt client to enter his name, (2) private messages between clients and (3) list all clients
+
 /**
  * Created by ricardo on 10-11-2016.
  */
